@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import styles from './styles/modal.module.css';
 
 export default function GenerateCodePage() {
@@ -11,6 +11,7 @@ export default function GenerateCodePage() {
     expiryDate: '10/05/2025',
     numCodes: 1
   });
+  const datePickerRef = useRef<HTMLInputElement>(null);
 
   const generateCode = () => {
     const batchNum = formData.batch.match(/\d+/)?.[0] || '12';
@@ -23,6 +24,20 @@ export default function GenerateCodePage() {
     setCodes([...codes, ...newCodes]);
   };
 
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const dateInputRef = useRef<HTMLInputElement>(null);
+
+  const handleDateFocus = () => {
+    setShowDatePicker(true);
+    dateInputRef.current?.showPicker();
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const [year, month, day] = e.target.value.split('-');
+    setFormData({...formData, expiryDate: `${day}/${month}/${year}`});
+    setShowDatePicker(false);
+  };
+
   return (
     <div>
       <button onClick={() => setIsModalOpen(true)} className={styles.openButton}>
@@ -32,7 +47,6 @@ export default function GenerateCodePage() {
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            {/* Close Button (X) di pojok kanan atas */}
             <button 
               onClick={() => setIsModalOpen(false)} 
               className={styles.closeButton}
@@ -41,10 +55,9 @@ export default function GenerateCodePage() {
             </button>
             
             <h2 className={styles.title}>Generate Access Codes</h2>
-            <div className={styles.divider}></div> {/* Ganti hr dengan div */}
+            <div className={styles.divider}></div>
             
             <div className={styles.columnsContainer}>
-              {/* Left Column - Form */}
               <div className={styles.leftColumn}>
                 <div className={styles.inputGroup}>
                   <label>Select Batch</label>
@@ -70,18 +83,14 @@ export default function GenerateCodePage() {
                 
                 <div className={styles.inputGroup}>
                   <label>Expiry Date</label>
-                  <input
-                    type="text"
-                    value={formData.expiryDate}
-                    onChange={(e) => {
-                      let value = e.target.value.replace(/\D/g, '');
-                      if (value.length > 2) value = value.slice(0,2) + '/' + value.slice(2);
-                      if (value.length > 5) value = value.slice(0,5) + '/' + value.slice(5,9);
-                      setFormData({...formData, expiryDate: value});
-                    }}
-                    placeholder="dd/mm/yyyy"
-                    maxLength={10}
-                  />
+                  <div className={styles.dateInputWrapper}>
+                    <input
+                      type="date"
+                      ref={dateInputRef}
+                      onChange={handleDateChange}
+                      className={styles.hiddenDateInput}
+                    />
+                  </div>
                 </div>
                 
                 <div className={styles.inputGroup}>
@@ -102,7 +111,6 @@ export default function GenerateCodePage() {
                 </button>
               </div>
 
-              {/* Right Column - Codes and Details */}
               <div className={styles.rightColumn}>
                 <div className={styles.codesSection}>
                   <h3 className={styles.sectionTitle}>Generated Access Codes</h3>

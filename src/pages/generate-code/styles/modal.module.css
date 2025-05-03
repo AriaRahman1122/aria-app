@@ -213,6 +213,7 @@
   
   /* Details Section */
   .codeDetailsBox {
+    background: rgb(246, 246, 247);
     border: 1px #f9fafb;
     border-radius: 4px;
     padding: 15px;

@@ -1,28 +1,28 @@
-'use client';
-import { useState, useRef } from 'react';
-import styles from './styles/modal.module.css';
-import { FiMail, FiCheck } from 'react-icons/fi';
+"use client";
+import { useState, useRef } from "react";
+import styles from "./styles/modal.module.css";
+import { FiMail, FiCheck } from "react-icons/fi";
 import { FaCopy, FaRegFilePdf } from "react-icons/fa6";
 
 export default function GenerateCodePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [codes, setCodes] = useState(['AK-WD12-X7Y9Z', 'AK-WD12-H2K4M']);
+  const [codes, setCodes] = useState(["AK-WD12-X7Y9Z", "AK-WD12-H2K4M"]);
   const [formData, setFormData] = useState({
-    batch: 'Web Development - Batch 12',
-    email: 'user@example.com',
-    expiryDate: '10/05/2025',
-    numCodes: 1
+    batch: "Web Development - Batch 12",
+    email: "user@example.com",
+    expiryDate: "10/05/2025",
+    numCodes: 1,
   });
   const datePickerRef = useRef<HTMLInputElement>(null);
 
   const generateCode = () => {
-    const batchNum = formData.batch.match(/\d+/)?.[0] || '12';
-    const random = Math.random().toString(36).substring(2,7).toUpperCase();
+    const batchNum = formData.batch.match(/\d+/)?.[0] || "12";
+    const random = Math.random().toString(36).substring(2, 7).toUpperCase();
     return `AK-WD${batchNum}-${random}`;
   };
 
   const handleGenerate = () => {
-    const newCodes = Array.from({length: formData.numCodes}, generateCode);
+    const newCodes = Array.from({ length: formData.numCodes }, generateCode);
     setCodes([...codes, ...newCodes]);
   };
 
@@ -35,8 +35,8 @@ export default function GenerateCodePage() {
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const [year, month, day] = e.target.value.split('-');
-    setFormData({...formData, expiryDate: `${day}/${month}/${year}`});
+    const [year, month, day] = e.target.value.split("-");
+    setFormData({ ...formData, expiryDate: `${day}/${month}/${year}` });
     setShowDatePicker(false);
   };
 
@@ -50,64 +50,71 @@ export default function GenerateCodePage() {
   };
 
   const copyAllCodes = () => {
-    navigator.clipboard.writeText(codes.join('\n'));
+    navigator.clipboard.writeText(codes.join("\n"));
     setAllCopied(true);
     setTimeout(() => setAllCopied(false), 2000);
   };
 
   const downloadPDF = () => {
     // PDF generation logic would go here
-    alert('PDF download functionality would be implemented here');
+    alert("PDF download functionality would be implemented here");
   };
 
   const sendEmail = () => {
     // Email sending logic would go here
-    alert('Email sending functionality would be implemented here');
+    alert("Email sending functionality would be implemented here");
   };
 
   return (
     <div>
-      <button onClick={() => setIsModalOpen(true)} className={styles.openButton}>
+      <button
+        onClick={() => setIsModalOpen(true)}
+        className={styles.openButton}
+      >
         Generate Access Codes
       </button>
 
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <button 
-              onClick={() => setIsModalOpen(false)} 
+            <button
+              onClick={() => setIsModalOpen(false)}
               className={styles.closeButton}
             >
               &times;
             </button>
-            
+
             <h2 className={styles.title}>Generate Access Codes</h2>
             <div className={styles.divider}></div>
-            
+
             <div className={styles.columnsContainer}>
               <div className={styles.leftColumn}>
                 <div className={styles.inputGroup}>
                   <label>Select Batch</label>
-                  <select 
+                  <select
                     value={formData.batch}
-                    onChange={(e) => setFormData({...formData, batch: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, batch: e.target.value })
+                    }
                     className={styles.select}
                   >
                     <option>Web Development - Batch 12</option>
                     <option>Data Science - Batch 5</option>
                   </select>
                 </div>
-                          
+
                 <div className={styles.inputGroup}>
                   <label>User Email</label>
-                  <input 
-                    type="email" 
+                  <input
+                    type="email"
                     value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     placeholder="Enter email address"
                   />
                 </div>
-                
+
                 <div className={styles.inputGroup}>
                   <label>Expiry Date</label>
                   <div className={styles.dateInputWrapper}>
@@ -119,18 +126,23 @@ export default function GenerateCodePage() {
                     />
                   </div>
                 </div>
-                
+
                 <div className={styles.inputGroup}>
                   <label>Number of Codes</label>
                   <input
                     type="number"
                     min="1"
                     value={formData.numCodes}
-                    onChange={(e) => setFormData({...formData, numCodes: Number(e.target.value) || 1})}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        numCodes: Number(e.target.value) || 1,
+                      })
+                    }
                   />
                 </div>
-                
-                <button 
+
+                <button
                   onClick={handleGenerate}
                   className={styles.generateButton}
                 >
@@ -139,40 +151,56 @@ export default function GenerateCodePage() {
               </div>
 
               <div className={styles.rightColumn}>
-                <div className={styles.sectionBox}>
+                <div className={styles.generatedAccessCodeBox}>
                   <div className={styles.codesHeader}>
-                    <h3 className={styles.sectionTitle}>Generated Access Codes</h3>
+                    <h3 className={styles.sectionTitle}>
+                      Generated Access Codes
+                    </h3>
                     <div className={styles.codeActions}>
-                      <button onClick={copyAllCodes} className={styles.actionButton}>
+                      <button
+                        onClick={copyAllCodes}
+                        className={styles.actionButton}
+                        title="Copy all codes"
+                      >
                         {allCopied ? <FiCheck /> : <FaCopy />}
                       </button>
-                      <button onClick={downloadPDF} className={styles.actionButton}>
+                      <button
+                        onClick={downloadPDF}
+                        className={styles.actionButton}
+                        title="Download PDF"
+                      >
                         <FaRegFilePdf />
                       </button>
-                      <button onClick={sendEmail} className={styles.actionButton}>
+                      <button
+                        onClick={sendEmail}
+                        className={styles.actionButton}
+                        title="Send email"
+                      >
                         <FiMail />
                       </button>
                     </div>
                   </div>
-      
-      <div className={styles.codeList}>
-        {codes.map((code, i) => (
-          <div key={i} className={styles.codeItem}>
-            <span className={styles.codeText}>{code}</span>
-            <button 
-              onClick={() => copyCode(code, i)} 
-              className={styles.copyButton}
-              aria-label="Copy code"
-            >
-              {copiedIndex === i ? <FiCheck /> : <FaCopy />}
-            </button>
-          </div>
-        ))}
-      </div>
+
+                  <div className={styles.codeList}>
+                    {codes.map((code, i) => (
+                      <div key={i} className={styles.codeItem}>
+                        <span className={styles.codeText}>{code}</span>
+                        <button
+                          onClick={() => copyCode(code, i)}
+                          className={styles.copyButton}
+                          title="Copy code"
+                        >
+                          {copiedIndex === i ? <FiCheck /> : <FaCopy />}
+                        </button>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                
-                <div className={styles.sectionBox}>
-                  <h3 className={styles.sectionTitleCodeDetails}>Code Details</h3>
+
+                <div className={styles.codeDetailsBox}>
+                  <h3 className={styles.sectionTitleCodeDetails}>
+                    Code Details
+                  </h3>
                   <div className={styles.detailRow}>
                     <span>Batch:</span>
                     <span>{formData.batch}</span>
@@ -183,7 +211,15 @@ export default function GenerateCodePage() {
                   </div>
                   <div className={styles.detailRow}>
                     <span>Expires:</span>
-                    <span>{new Date(formData.expiryDate.split('/').reverse().join('-')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                    <span>
+                      {new Date(
+                        formData.expiryDate.split("/").reverse().join("-")
+                      ).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
+                    </span>
                   </div>
                   <div className={styles.detailRow}>
                     <span>Status:</span>
@@ -194,17 +230,15 @@ export default function GenerateCodePage() {
             </div>
 
             <div className={styles.divider}></div>
-            
+
             <div className={styles.buttonGroup}>
-              <button 
+              <button
                 onClick={() => setIsModalOpen(false)}
                 className={styles.secondaryButton}
               >
                 Close
               </button>
-              <button className={styles.primaryButton}>
-                Save Codes
-              </button>
+              <button className={styles.primaryButton}>Save Codes</button>
             </div>
           </div>
         </div>

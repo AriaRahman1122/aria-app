@@ -66,6 +66,7 @@
   }
   
   .leftColumn {
+    margin-top: 15px;
     flex: 1;
     min-width: 300px;
   }
@@ -109,15 +110,15 @@
     cursor: pointer;
     margin-top: 10px;
   }
-
-  /* Section */
-  .sectionBox {
+  
+  
+  /* Generated Access Code Section */
+  .generatedAccessCodeBox {
     border: 1px solid #e4e1e1;
     border-radius: 4px;
     padding: 15px;
   }
-  
-  /* Codes Section */
+
   .sectionTitle {
     font-family: inter, sans-serif;
     font-size: 14px;
@@ -177,9 +178,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 12px;
+    padding: 4px 8px;
     background: white;
-    border: 1px solid #e2e8f0;
+    border: 1px #e2e8f0;
     border-radius: 4px;
     font-family: 'Roboto Mono', monospace;
     font-size: 14px;
@@ -210,12 +211,18 @@
     height: 16px;
   }
   
-  /* Details Section */  
+  /* Details Section */
+  .codeDetailsBox {
+    border: 1px #f9fafb;
+    border-radius: 4px;
+    padding: 15px;
+  }
+
   .detailRow {
     display: flex;
     justify-content: space-between;
     padding: 8px 0;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px #f5f5f5;
     font-size: 14px;
   }
   

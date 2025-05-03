@@ -1,7 +1,7 @@
 /* Base Styles */
 .openButton {
     padding: 10px 20px;
-    background: #4CAF50;
+    background: #1f2937;
     color: white;
     border: none;
     border-radius: 4px;
@@ -29,19 +29,33 @@
     max-width: 800px;
     padding: 24px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  
+  /* Close Button */
+  .closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
   }
   
   .title {
+    font-family: inter, sans-serif;
     font-size: 20px;
     margin-bottom: 20px;
-    color: #333;
-    text-align: center;
+    color: #000;
   }
   
-  .sectionTitle {
-    font-size: 16px;
-    margin: 0 0 15px 0;
-    color: #333;
+  /* Divider - Pengganti hr */
+  .divider {
+    height: 1px;
+    background-color: #cac9c9;
+    margin: 15px 0;
   }
   
   /* Columns Layout */
@@ -84,14 +98,10 @@
     font-size: 14px;
   }
   
-  .select {
-    margin-bottom: 15px;
-  }
-  
   .generateButton {
     width: 100%;
     padding: 10px;
-    background: #4CAF50;
+    background: #1f2937;
     color: white;
     border: none;
     border-radius: 4px;
@@ -103,6 +113,20 @@
   /* Codes Section */
   .codesSection {
     flex: 1;
+  }
+
+  .sectionTitle {
+    font-family: inter, sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #6B7280;
+  }
+
+  .sectionTitleCodeDetails {
+    font-family: inter, sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #000;
   }
   
   .codeList {
@@ -145,7 +169,8 @@
   }
   
   .activeStatus {
-    color: #4CAF50;
+    background: #E5E7EB;
+    color: #000;
     font-weight: 500;
   }
   
@@ -166,7 +191,7 @@
   }
   
   .primaryButton {
-    background: #4CAF50;
+    background: #1f2937;
     color: white;
     border: none;
   }

@@ -4,7 +4,7 @@ import styles from './styles/modal.module.css';
 
 export default function GenerateCodePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [codes, setCodes] = useState(['AK-WD12-XYY9Z', 'AK-WD12-H2K4M']);
+  const [codes, setCodes] = useState(['AK-WD12-X7Y9Z', 'AK-WD12-H2K4M']);
   const [formData, setFormData] = useState({
     batch: 'Web Development - Batch 12',
     email: 'user@example.com',
@@ -32,21 +32,32 @@ export default function GenerateCodePage() {
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <h1 className={styles.title}>Generate Access Codes</h1>
+            {/* Close Button (X) di pojok kanan atas */}
+            <button 
+              onClick={() => setIsModalOpen(false)} 
+              className={styles.closeButton}
+            >
+              &times;
+            </button>
+            
+            <h2 className={styles.title}>Generate Access Codes</h2>
+            <div className={styles.divider}></div> {/* Ganti hr dengan div */}
             
             <div className={styles.columnsContainer}>
               {/* Left Column - Form */}
               <div className={styles.leftColumn}>
-                <h2 className={styles.sectionTitle}>Select Batch</h2>
-                <select 
-                  value={formData.batch}
-                  onChange={(e) => setFormData({...formData, batch: e.target.value})}
-                  className={styles.select}
-                >
-                  <option>Web Development - Batch 12</option>
-                  <option>Data Science - Batch 5</option>
-                </select>
-                
+                <div className={styles.inputGroup}>
+                  <label>Select Batch</label>
+                  <select 
+                    value={formData.batch}
+                    onChange={(e) => setFormData({...formData, batch: e.target.value})}
+                    className={styles.select}
+                  >
+                    <option>Web Development - Batch 12</option>
+                    <option>Data Science - Batch 5</option>
+                  </select>
+                </div>
+                          
                 <div className={styles.inputGroup}>
                   <label>User Email</label>
                   <input 
@@ -94,7 +105,7 @@ export default function GenerateCodePage() {
               {/* Right Column - Codes and Details */}
               <div className={styles.rightColumn}>
                 <div className={styles.codesSection}>
-                  <h2 className={styles.sectionTitle}>Generated Access Codes</h2>
+                  <h3 className={styles.sectionTitle}>Generated Access Codes</h3>
                   <div className={styles.codeList}>
                     {codes.map((code, i) => (
                       <div key={i} className={styles.codeItem}>{code}</div>
@@ -103,7 +114,7 @@ export default function GenerateCodePage() {
                 </div>
                 
                 <div className={styles.detailsSection}>
-                  <h2 className={styles.sectionTitle}>Code Details</h2>
+                  <h3 className={styles.sectionTitleCodeDetails}>Code Details</h3>
                   <div className={styles.detailRow}>
                     <span>Batch:</span>
                     <span>{formData.batch}</span>
@@ -123,6 +134,8 @@ export default function GenerateCodePage() {
                 </div>
               </div>
             </div>
+
+            <div className={styles.divider}></div>
             
             <div className={styles.buttonGroup}>
               <button 

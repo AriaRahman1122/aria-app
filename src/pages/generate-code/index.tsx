@@ -1,6 +1,8 @@
 'use client';
 import { useState, useRef } from 'react';
 import styles from './styles/modal.module.css';
+import { FiMail, FiCheck } from 'react-icons/fi';
+import { FaCopy, FaRegFilePdf } from "react-icons/fa6";
 
 export default function GenerateCodePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -36,6 +38,31 @@ export default function GenerateCodePage() {
     const [year, month, day] = e.target.value.split('-');
     setFormData({...formData, expiryDate: `${day}/${month}/${year}`});
     setShowDatePicker(false);
+  };
+
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+  const [allCopied, setAllCopied] = useState(false);
+
+  const copyCode = (code: string, index: number) => {
+    navigator.clipboard.writeText(code);
+    setCopiedIndex(index);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const copyAllCodes = () => {
+    navigator.clipboard.writeText(codes.join('\n'));
+    setAllCopied(true);
+    setTimeout(() => setAllCopied(false), 2000);
+  };
+
+  const downloadPDF = () => {
+    // PDF generation logic would go here
+    alert('PDF download functionality would be implemented here');
+  };
+
+  const sendEmail = () => {
+    // Email sending logic would go here
+    alert('Email sending functionality would be implemented here');
   };
 
   return (
@@ -112,16 +139,39 @@ export default function GenerateCodePage() {
               </div>
 
               <div className={styles.rightColumn}>
-                <div className={styles.codesSection}>
-                  <h3 className={styles.sectionTitle}>Generated Access Codes</h3>
-                  <div className={styles.codeList}>
-                    {codes.map((code, i) => (
-                      <div key={i} className={styles.codeItem}>{code}</div>
-                    ))}
+                <div className={styles.sectionBox}>
+                  <div className={styles.codesHeader}>
+                    <h3 className={styles.sectionTitle}>Generated Access Codes</h3>
+                    <div className={styles.codeActions}>
+                      <button onClick={copyAllCodes} className={styles.actionButton}>
+                        {allCopied ? <FiCheck /> : <FaCopy />}
+                      </button>
+                      <button onClick={downloadPDF} className={styles.actionButton}>
+                        <FaRegFilePdf />
+                      </button>
+                      <button onClick={sendEmail} className={styles.actionButton}>
+                        <FiMail />
+                      </button>
+                    </div>
                   </div>
+      
+      <div className={styles.codeList}>
+        {codes.map((code, i) => (
+          <div key={i} className={styles.codeItem}>
+            <span className={styles.codeText}>{code}</span>
+            <button 
+              onClick={() => copyCode(code, i)} 
+              className={styles.copyButton}
+              aria-label="Copy code"
+            >
+              {copiedIndex === i ? <FiCheck /> : <FaCopy />}
+            </button>
+          </div>
+        ))}
+      </div>
                 </div>
                 
-                <div className={styles.detailsSection}>
+                <div className={styles.sectionBox}>
                   <h3 className={styles.sectionTitleCodeDetails}>Code Details</h3>
                   <div className={styles.detailRow}>
                     <span>Batch:</span>

@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
-import styles from "./styles/modal.module.css";
+import modalStyles from '@styles/modal.module.css';
+import pageStyles from '@styles/generateAccessCodePage.module.css';
 import { FiMail, FiCheck } from "react-icons/fi";
 import { FaCopy, FaRegFilePdf } from "react-icons/fa6";
 
@@ -69,41 +70,41 @@ export default function GenerateCodePage() {
     <div>
       <button
         onClick={() => setIsModalOpen(true)}
-        className={styles.openButton}
+        className={pageStyles.openButton}
       >
         Generate Access Codes
       </button>
 
       {isModalOpen && (
-        <div className={styles.modalOverlay}>
-          <div className={styles.modal}>
+        <div className={modalStyles.modalOverlay}>
+          <div className={modalStyles.modal}>
             <button
               onClick={() => setIsModalOpen(false)}
-              className={styles.closeButton}
+              className={modalStyles.closeButton}
             >
               &times;
             </button>
 
-            <h2 className={styles.title}>Generate Access Codes</h2>
-            <div className={styles.divider}></div>
+            <h2 className={modalStyles.modalTitle}>Generate Access Codes</h2>
+            <div className={modalStyles.modalDivider}></div>
 
-            <div className={styles.columnsContainer}>
-              <div className={styles.leftColumn}>
-                <div className={styles.inputGroup}>
+            <div className={modalStyles.modalColumns}>
+              <div className={modalStyles.modalLeftColumn}>
+                <div className={pageStyles.inputGroup}>
                   <label>Select Batch</label>
                   <select
                     value={formData.batch}
                     onChange={(e) =>
                       setFormData({ ...formData, batch: e.target.value })
                     }
-                    className={styles.select}
+                    className={pageStyles.select}
                   >
                     <option>Web Development - Batch 12</option>
                     <option>Data Science - Batch 5</option>
                   </select>
                 </div>
 
-                <div className={styles.inputGroup}>
+                <div className={pageStyles.inputGroup}>
                   <label>User Email</label>
                   <input
                     type="email"
@@ -115,19 +116,18 @@ export default function GenerateCodePage() {
                   />
                 </div>
 
-                <div className={styles.inputGroup}>
+                <div className={pageStyles.inputGroup}>
                   <label>Expiry Date</label>
-                  <div className={styles.dateInputWrapper}>
+                  <div>
                     <input
                       type="date"
                       ref={dateInputRef}
                       onChange={handleDateChange}
-                      className={styles.hiddenDateInput}
                     />
                   </div>
                 </div>
 
-                <div className={styles.inputGroup}>
+                <div className={pageStyles.inputGroup}>
                   <label>Number of Codes</label>
                   <input
                     type="number"
@@ -144,36 +144,36 @@ export default function GenerateCodePage() {
 
                 <button
                   onClick={handleGenerate}
-                  className={styles.generateButton}
+                  className={pageStyles.generateButton}
                 >
                   Generate Code
                 </button>
               </div>
 
-              <div className={styles.rightColumn}>
-                <div className={styles.generatedAccessCodeBox}>
-                  <div className={styles.codesHeader}>
-                    <h3 className={styles.sectionTitle}>
+              <div className={modalStyles.modalRightColumn}>
+                <div className={pageStyles.generatedAccessCodeBox}>
+                  <div className={pageStyles.codesHeader}>
+                    <h3 className={pageStyles.sectionTitle}>
                       Generated Access Codes
                     </h3>
-                    <div className={styles.codeActions}>
+                    <div className={pageStyles.codeActions}>
                       <button
                         onClick={copyAllCodes}
-                        className={styles.actionButton}
+                        className={pageStyles.actionButton}
                         title="Copy all codes"
                       >
                         {allCopied ? <FiCheck /> : <FaCopy />}
                       </button>
                       <button
                         onClick={downloadPDF}
-                        className={styles.actionButton}
+                        className={pageStyles.actionButton}
                         title="Download PDF"
                       >
                         <FaRegFilePdf />
                       </button>
                       <button
                         onClick={sendEmail}
-                        className={styles.actionButton}
+                        className={pageStyles.actionButton}
                         title="Send email"
                       >
                         <FiMail />
@@ -181,13 +181,13 @@ export default function GenerateCodePage() {
                     </div>
                   </div>
 
-                  <div className={styles.codeList}>
+                  <div className={pageStyles.codeList}>
                     {codes.map((code, i) => (
-                      <div key={i} className={styles.codeItem}>
-                        <span className={styles.codeText}>{code}</span>
+                      <div key={i} className={pageStyles.codeItem}>
+                        <span className={pageStyles.codeText}>{code}</span>
                         <button
                           onClick={() => copyCode(code, i)}
-                          className={styles.copyButton}
+                          className={pageStyles.copyButton}
                           title="Copy code"
                         >
                           {copiedIndex === i ? <FiCheck /> : <FaCopy />}
@@ -197,19 +197,19 @@ export default function GenerateCodePage() {
                   </div>
                 </div>
 
-                <div className={styles.codeDetailsBox}>
-                  <h3 className={styles.sectionTitleCodeDetails}>
+                <div className={pageStyles.codeDetailsBox}>
+                  <h3 className={pageStyles.sectionTitleCodeDetails}>
                     Code Details
                   </h3>
-                  <div className={styles.detailRow}>
+                  <div className={pageStyles.detailRow}>
                     <span>Batch:</span>
                     <span>{formData.batch}</span>
                   </div>
-                  <div className={styles.detailRow}>
+                  <div className={pageStyles.detailRow}>
                     <span>Email:</span>
                     <span>{formData.email}</span>
                   </div>
-                  <div className={styles.detailRow}>
+                  <div className={pageStyles.detailRow}>
                     <span>Expires:</span>
                     <span>
                       {new Date(
@@ -221,24 +221,24 @@ export default function GenerateCodePage() {
                       })}
                     </span>
                   </div>
-                  <div className={styles.detailRow}>
+                  <div className={pageStyles.detailRow}>
                     <span>Status:</span>
-                    <span className={styles.activeStatus}>Active</span>
+                    <span className={pageStyles.activeStatus}>Active</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className={styles.divider}></div>
+            <div className={modalStyles.modalDivider}></div>
 
-            <div className={styles.buttonGroup}>
+            <div className={modalStyles.modalButtonGroup}>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className={styles.secondaryButton}
+                className={modalStyles.secondaryButton}
               >
                 Close
               </button>
-              <button className={styles.primaryButton}>Save Codes</button>
+              <button className={modalStyles.primaryButton}>Save Codes</button>
             </div>
           </div>
         </div>

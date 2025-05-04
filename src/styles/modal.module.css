@@ -1,0 +1,94 @@
+/* Base Modal Structure */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modal {
+    background: white;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    position: relative;
+  }
+  
+  .closeButton {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+  }
+  
+  .modalTitle {
+    font-family: inter, sans-serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: #000;
+  }
+  
+  .modalDivider {
+    height: 1px;
+    background-color: #cac9c9;
+    margin: 15px 0;
+  }
+  
+  /* Two Column Layout (Reusable) */
+  .modalColumns {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .modalLeftColumn {
+    flex: 1;
+    min-width: 300px;
+  }
+  
+  .modalRightColumn {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Generic Button Styles */
+  .modalButtonGroup {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  .primaryButton {
+    padding: 8px 16px;
+    background: #1f2937;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  
+  .secondaryButton {
+    padding: 8px 16px;
+    background: white;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+  }

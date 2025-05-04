@@ -7,7 +7,7 @@ import { FaCopy, FaRegFilePdf } from "react-icons/fa6";
 
 export default function GenerateCodePage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [codes, setCodes] = useState(["AK-WD12-X7Y9Z", "AK-WD12-H2K4M"]);
+  const [codes, setCodes] = useState(["AK-WD12-X7Y9Z"]);
   const [formData, setFormData] = useState({
     batch: "Web Development - Batch 12",
     email: "user@example.com",
@@ -65,6 +65,31 @@ export default function GenerateCodePage() {
     // Email sending logic would go here
     alert("Email sending functionality would be implemented here");
   };
+
+  const [selectedCode, setSelectedCode] = useState<{
+    batch: string;
+    email: string;
+    expires: string;
+    status: string;
+  } | null>(null);
+
+  // Fungsi untuk handle ketika code di klik
+  const handleCodeClick = (code: string) => {
+    const today = new Date();
+  
+    const [day, month, year] = formData.expiryDate.split('/').map(Number);
+    const expiry = new Date(year, month - 1, day); // month - 1 karena bulan dimulai dari 0
+  
+    const status = expiry >= today ? "Active" : "Inactive";
+  
+    setSelectedCode({
+      batch: formData.batch,
+      email: formData.email,
+      expires: formData.expiryDate,
+      status: status
+    });
+  };
+  
 
   return (
     <div>
@@ -151,7 +176,7 @@ export default function GenerateCodePage() {
               </div>
 
               <div className={modalStyles.modalRightColumn}>
-                <div className={pageStyles.generatedAccessCodeBox}>
+              <div className={pageStyles.generatedAccessCodeBox}>
                   <div className={pageStyles.codesHeader}>
                     <h3 className={pageStyles.sectionTitle}>
                       Generated Access Codes
@@ -160,7 +185,7 @@ export default function GenerateCodePage() {
                       <button
                         onClick={copyAllCodes}
                         className={pageStyles.actionButton}
-                        title="Copy all codes"
+                        title="Copy All"
                       >
                         {allCopied ? <FiCheck /> : <FaCopy />}
                       </button>
@@ -183,10 +208,18 @@ export default function GenerateCodePage() {
 
                   <div className={pageStyles.codeList}>
                     {codes.map((code, i) => (
-                      <div key={i} className={pageStyles.codeItem}>
+                      <div 
+                        key={i} 
+                        className={pageStyles.codeItem}
+                        onClick={() => handleCodeClick(code)} // Tambahkan onClick handler
+                        style={{ cursor: 'pointer' }} // Ubah cursor saat hover
+                      >
                         <span className={pageStyles.codeText}>{code}</span>
                         <button
-                          onClick={() => copyCode(code, i)}
+                          onClick={(e) => {
+                            e.stopPropagation(); // Mencegah event bubbling
+                            copyCode(code, i);
+                          }}
                           className={pageStyles.copyButton}
                           title="Copy code"
                         >
@@ -197,35 +230,46 @@ export default function GenerateCodePage() {
                   </div>
                 </div>
 
-                <div className={pageStyles.codeDetailsBox}>
-                  <h3 className={pageStyles.sectionTitleCodeDetails}>
-                    Code Details
-                  </h3>
-                  <div className={pageStyles.detailRow}>
-                    <span>Batch:</span>
-                    <span>{formData.batch}</span>
-                  </div>
-                  <div className={pageStyles.detailRow}>
-                    <span>Email:</span>
-                    <span>{formData.email}</span>
-                  </div>
-                  <div className={pageStyles.detailRow}>
-                    <span>Expires:</span>
-                    <span>
-                      {new Date(
-                        formData.expiryDate.split("/").reverse().join("-")
-                      ).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
+                {/* Code Details Section - hanya muncul jika ada selectedCode */}
+                {selectedCode && (
+                  <div className={pageStyles.codeDetailsBox}>
+                    <h3 className={pageStyles.sectionTitleCodeDetails}>
+                      Code Details
+                    </h3>
+                    <div className={pageStyles.detailRow}>
+                      <span>Batch:</span>
+                      <span>{selectedCode.batch}</span>
+                    </div>
+                    <div className={pageStyles.detailRow}>
+                      <span>Email:</span>
+                      <span>{selectedCode.email}</span>
+                    </div>
+                    <div className={pageStyles.detailRow}>
+                      <span>Expires:</span>
+                      <span>
+                        {new Date(
+                          selectedCode.expires.split("/").reverse().join("-")
+                        ).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </span>
+                    </div>
+                    <div className={pageStyles.detailRow}>
+                    <span>Status:</span>
+                    <span
+                      className={
+                        selectedCode.status === "Inactive"
+                          ? pageStyles.inactiveStatus
+                          : pageStyles.activeStatus
+                      }
+                    >
+                      {selectedCode.status}
                     </span>
                   </div>
-                  <div className={pageStyles.detailRow}>
-                    <span>Status:</span>
-                    <span className={pageStyles.activeStatus}>Active</span>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
